@@ -1,0 +1,29 @@
+before_script:
+  # UTF8 needed for buildout AND test run
+  - export LC_CTYPE=en_US.UTF-8
+  - export LC_ALL=en_US.UTF-8
+  - export LANG=en_US.UTF-8
+
+  # start redis
+  - /etc/init.d/redis-server restart
+  
+  # NOW the actual build
+  - make gitlab-ci
+
+  # start framebuffer before test run to avoid exit code
+  - Xvfb :99 1>/dev/null 2>&1 &
+
+  # remove coverage cruft from previous runs
+  - test -d /tmp/coverage && rm -rf /tmp/coverage
+  - test -f .coverage && rm .coverage
+
+robot:
+  script:
+    - DISPLAY=:99 bin/test -s ploneintranet -t 'robot'
+
+norobot:    
+  script:
+    - make test-docsplit
+    - bin/test -s ploneintranet -t '!robot'
+
+
