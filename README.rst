@@ -116,3 +116,34 @@ At this stage you already have a supervisor running:
 And redis should be running at the system level.
 
 Next step is to make this system accessible from the outside, by adding at least Nginx and probably also HAProxy. See: http://docs.quaive.net/installation/production.html
+
+
+Common buildout customizations
+------------------------------
+
+You can configure the buildout parts (ZEO server and instances and Solr)
+to listen to different ports and interfaces.
+
+The simplest way to do this is to add a `local.cfg` file in this folder
+with your own ports, e.g.::
+
+    [buildout]
+    extends=buildout.cfg
+
+    [instance]
+    http-address = 127.0.0.1:8880
+
+    [instance2]
+    http-address = 127.0.0.1:8881
+
+    [zeo]
+    zeo-address = 127.0.0.1:8890
+
+    [solr]
+    host = 127.0.0.1
+    port = 8885
+
+
+Then you can run buildout passing the `-c local.cfg` parameter::
+
+    ./bin/buildout -c local.cfg $YOUR_OTHER_OPTIONS_HERE
