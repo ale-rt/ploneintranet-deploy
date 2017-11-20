@@ -1,7 +1,7 @@
-GAIA
+MARS
 ====
 
-This is the Quaive *Gaia* release of Plone intranet.
+This is the Quaive *Mars* release of Plone intranet.
 
 Prepare system
 --------------
